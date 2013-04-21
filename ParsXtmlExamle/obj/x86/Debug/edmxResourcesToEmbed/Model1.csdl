@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="StocExchangeModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+  <EntityContainer Name="StocExchangeEntities3" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Companies" EntityType="StocExchangeModel.Company" />
+    <EntitySet Name="Records" EntityType="StocExchangeModel.Record" />
+    <AssociationSet Name="company_record" Association="StocExchangeModel.company_record">
+      <End Role="Companies" EntitySet="Companies" />
+      <End Role="Records" EntitySet="Records" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Company">
+    <Key>
+      <PropertyRef Name="Symbol" />
+    </Key>
+    <Property Name="Name" Type="String" MaxLength="100" Unicode="true" FixedLength="false" />
+    <Property Name="Symbol" Type="String" Nullable="false" MaxLength="10" Unicode="true" FixedLength="false" />
+    <NavigationProperty Name="Records" Relationship="StocExchangeModel.company_record" FromRole="Companies" ToRole="Records" />
+  </EntityType>
+  <EntityType Name="Record">
+    <Key>
+      <PropertyRef Name="DateOfRecord" />
+      <PropertyRef Name="CompanySymbol" />
+    </Key>
+    <Property Name="High" Type="Double" />
+    <Property Name="Low" Type="Double" />
+    <Property Name="Close" Type="Double" />
+    <Property Name="Volume" Type="Int32" />
+    <Property Name="ChangeOne" Type="Double" />
+    <Property Name="ChangeTwo" Type="Double" />
+    <Property Name="DateOfRecord" Type="DateTime" Nullable="false" />
+    <Property Name="CompanySymbol" Type="String" Nullable="false" MaxLength="10" Unicode="true" FixedLength="false" />
+    <NavigationProperty Name="Company" Relationship="StocExchangeModel.company_record" FromRole="Records" ToRole="Companies" />
+  </EntityType>
+  <Association Name="company_record">
+    <End Role="Companies" Type="StocExchangeModel.Company" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Records" Type="StocExchangeModel.Record" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Companies">
+        <PropertyRef Name="Symbol" />
+      </Principal>
+      <Dependent Role="Records">
+        <PropertyRef Name="CompanySymbol" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

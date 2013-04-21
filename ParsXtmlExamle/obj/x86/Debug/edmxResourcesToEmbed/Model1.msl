@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="StocExchangeModelStoreContainer" CdmEntityContainer="StocExchangeEntities3">
+    <EntitySetMapping Name="Companies">
+      <EntityTypeMapping TypeName="StocExchangeModel.Company">
+        <MappingFragment StoreEntitySet="Companies">
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Symbol" ColumnName="Symbol" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Records">
+      <EntityTypeMapping TypeName="StocExchangeModel.Record">
+        <MappingFragment StoreEntitySet="Records">
+          <ScalarProperty Name="High" ColumnName="High" />
+          <ScalarProperty Name="Low" ColumnName="Low" />
+          <ScalarProperty Name="Close" ColumnName="Close" />
+          <ScalarProperty Name="Volume" ColumnName="Volume" />
+          <ScalarProperty Name="ChangeOne" ColumnName="ChangeOne" />
+          <ScalarProperty Name="ChangeTwo" ColumnName="ChangeTwo" />
+          <ScalarProperty Name="DateOfRecord" ColumnName="DateOfRecord" />
+          <ScalarProperty Name="CompanySymbol" ColumnName="CompanySymbol" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

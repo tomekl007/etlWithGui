@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="StocExchangeModel.Store" Alias="Self" Provider="System.Data.SqlServerCe.3.5" ProviderManifestToken="3.5" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+  <EntityContainer Name="StocExchangeModelStoreContainer">
+    <EntitySet Name="Companies" EntityType="StocExchangeModel.Store.Companies" store:Type="Tables" />
+    <EntitySet Name="Records" EntityType="StocExchangeModel.Store.Records" store:Type="Tables" />
+    <AssociationSet Name="company_record" Association="StocExchangeModel.Store.company_record">
+      <End Role="Companies" EntitySet="Companies" />
+      <End Role="Records" EntitySet="Records" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Companies">
+    <Key>
+      <PropertyRef Name="Symbol" />
+    </Key>
+    <Property Name="Name" Type="nvarchar" MaxLength="100" />
+    <Property Name="Symbol" Type="nvarchar" Nullable="false" MaxLength="10" />
+  </EntityType>
+  <EntityType Name="Records">
+    <Key>
+      <PropertyRef Name="DateOfRecord" />
+      <PropertyRef Name="CompanySymbol" />
+    </Key>
+    <Property Name="High" Type="float" />
+    <Property Name="Low" Type="float" />
+    <Property Name="Close" Type="float" />
+    <Property Name="Volume" Type="int" />
+    <Property Name="ChangeOne" Type="float" />
+    <Property Name="ChangeTwo" Type="float" />
+    <Property Name="DateOfRecord" Type="datetime" Nullable="false" />
+    <Property Name="CompanySymbol" Type="nvarchar" Nullable="false" MaxLength="10" />
+  </EntityType>
+  <Association Name="company_record">
+    <End Role="Companies" Type="StocExchangeModel.Store.Companies" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Records" Type="StocExchangeModel.Store.Records" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Companies">
+        <PropertyRef Name="Symbol" />
+      </Principal>
+      <Dependent Role="Records">
+        <PropertyRef Name="CompanySymbol" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

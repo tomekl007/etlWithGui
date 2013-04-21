@@ -1,0 +1,11 @@
+﻿<Window x:Class="guiAplication.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="MainWindow" Height="350" Width="525">
+    <Grid>
+        <TextBox Height="23" HorizontalAlignment="Left" Margin="136,39,0,0" Name="nameOfStockToSearch" VerticalAlignment="Top" Width="120" TextChanged="nameOfStockToSearch_TextChanged" />
+        <Label Content="Wpisz nazwe gieldy" Height="28" HorizontalAlignment="Left" Margin="12,39,0,0" Name="label1" VerticalAlignment="Top" Width="126" />
+        <Button Content="Sciagnij dane" Height="23" HorizontalAlignment="Left" Margin="76,112,0,0" Name="downloadDataFromWeb" VerticalAlignment="Top" Width="75" Click="downloadDataFromWeb_Click" />
+        <Button Content="zapisz dane do db" Height="23" HorizontalAlignment="Left" Margin="193,112,0,0" Name="saveDataToDb" VerticalAlignment="Top" Width="124" Click="saveDataToDb_Click" />
+    </Grid>
+</Window>

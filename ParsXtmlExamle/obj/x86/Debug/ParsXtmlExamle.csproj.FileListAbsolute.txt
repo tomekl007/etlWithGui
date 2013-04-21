@@ -1,0 +1,10 @@
+C:\Users\Tomek\Documents\Visual Studio 2010\Projects\PRACOWNIA PROGRAMOWNIE 2\ParsXtmlExamle\ParsXtmlExamle\bin\Debug\ParsXtmlExamle.exe
+C:\Users\Tomek\Documents\Visual Studio 2010\Projects\PRACOWNIA PROGRAMOWNIE 2\ParsXtmlExamle\ParsXtmlExamle\bin\Debug\ParsXtmlExamle.pdb
+C:\Users\Tomek\Documents\Visual Studio 2010\Projects\PRACOWNIA PROGRAMOWNIE 2\ParsXtmlExamle\ParsXtmlExamle\bin\Debug\HtmlAgilityPack.dll
+C:\Users\Tomek\Documents\Visual Studio 2010\Projects\PRACOWNIA PROGRAMOWNIE 2\ParsXtmlExamle\ParsXtmlExamle\bin\Debug\HtmlAgilityPack.pdb
+C:\Users\Tomek\Documents\Visual Studio 2010\Projects\PRACOWNIA PROGRAMOWNIE 2\ParsXtmlExamle\ParsXtmlExamle\bin\Debug\HtmlAgilityPack.xml
+C:\Users\Tomek\Documents\Visual Studio 2010\Projects\PRACOWNIA PROGRAMOWNIE 2\ParsXtmlExamle\ParsXtmlExamle\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\Users\Tomek\Documents\Visual Studio 2010\Projects\PRACOWNIA PROGRAMOWNIE 2\ParsXtmlExamle\ParsXtmlExamle\obj\x86\Debug\ParsXtmlExamle.exe
+C:\Users\Tomek\Documents\Visual Studio 2010\Projects\PRACOWNIA PROGRAMOWNIE 2\ParsXtmlExamle\ParsXtmlExamle\obj\x86\Debug\ParsXtmlExamle.pdb
+C:\Users\Tomek\Documents\Visual Studio 2010\Projects\PRACOWNIA PROGRAMOWNIE 2\ParsXtmlExamle\ParsXtmlExamle\bin\Debug\StocExchange.sdf
+C:\Users\Tomek\Documents\Visual Studio 2010\Projects\PRACOWNIA PROGRAMOWNIE 2\ParsXtmlExamle\ParsXtmlExamle\bin\Debug\ParsXtmlExamle.exe.config
