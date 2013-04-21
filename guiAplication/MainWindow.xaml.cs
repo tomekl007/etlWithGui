@@ -14,6 +14,9 @@ using System.Windows.Shapes;
 using ParsXtmlExamle;
 using System.Configuration;
 
+using System.Data.Objects;
+
+
 namespace guiAplication
 {
     /// <summary>
@@ -96,6 +99,49 @@ namespace guiAplication
             String nameOfStockToSearch = searchRecordsForStock.Text;
             Console.WriteLine(nameOfStockToSearch);
             //TO DO : get data from db and bind to grid view
+            List<Record> results = programFacade.getRecordsForSpecyficCompany(nameOfStockToSearch);
+           // dataGrid1.ItemsSource = results;
+            //dataGrid1.DataContext = results;
+           
+            List<String>symbols = new List<string>();
+            foreach (Record r in results){
+                Console.WriteLine(r.CompanySymbol + " " + r.Low);
+                symbols.Add(r.CompanySymbol);
+            }
+
+           /* DataGridTextColumn symbolRow = new DataGridTextColumn();
+            symbolRow.Header = "symbol";
+            dataGrid1.Columns.Add(symbolRow);
+
+            DataGridTextColumn highRow = new DataGridTextColumn();
+            highRow.Header = "high";
+            dataGrid1.Columns.Add(highRow);
+            **/
+
+           // dataGrid1.ItemsSource = symbols;
+            //dataGrid1.ItemsSource = results;
+            
+
+           // dataGrid1.Items.Add("asdsa");
+           
+            //dataGrid1.ItemsSource = results;
+            String separator = "          " ;
+            String newLineSeparator = " \n";
+            String constructed = "";
+            //String.Format("{0:0.##}", );      // "123.46"
+            foreach(Record r in results)
+            {
+                constructed += r.CompanySymbol + separator + String.Format("{0:0.##}",r.High) + separator
+                            + String.Format("{0:0.##}",r.Low) + separator + String.Format("{0:0.##}",r.Close) 
+                            + separator + r.Volume + separator
+                            + String.Format("{0:0.##}", r.ChangeOne) + separator
+                            + r.DateOfRecord.ToShortDateString() + newLineSeparator;
+
+            }
+
+            dataResult.Text = constructed;
+
+            
 
         }
     }

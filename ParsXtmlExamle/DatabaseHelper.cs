@@ -16,6 +16,17 @@ namespace ParsXtmlExamle
             //= ConfigurationManager.ConnectionStrings["StocExchangeEntities2"].ConnectionString;
           ;
         String filePath;
+
+        public DatabaseHelper()
+        {
+            
+            this.stockName = "";//not need
+            this.letter = "";//not need
+            filePath = "";
+            
+            connectionString = ConfigurationManager.ConnectionStrings["StocExchangeEntities2"].ConnectionString;
+
+        }
        
 
         public DatabaseHelper(String stockName, String letter)
@@ -268,7 +279,7 @@ namespace ParsXtmlExamle
 
             }
 
-        
+            context.Dispose();
 
            
 
@@ -287,6 +298,24 @@ namespace ParsXtmlExamle
             }
             */
 
+        }
+
+        public List<Record> getRecordsForCompany(String companySymbol)
+        {
+            Console.WriteLine("searching for records for companySymbol : " + companySymbol);
+            ObjectContext context = new ObjectContext(connectionString);
+            ObjectSet<Record> records = context.CreateObjectSet<Record>();
+            List<Record> result = new List<Record>();
+
+            var recordsQ = records.Where(r => r.CompanySymbol == companySymbol);
+
+
+            foreach (var rec in recordsQ){
+                Console.WriteLine(rec.DateOfRecord + " " + rec.Volume);
+                result.Add(rec);
+            }
+            
+            return result;
         }
     }
 }

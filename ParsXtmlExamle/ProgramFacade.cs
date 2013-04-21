@@ -114,5 +114,11 @@ namespace ParsXtmlExamle
             }
         }
 
+
+        public List<Record> getRecordsForSpecyficCompany(string nameOfStockToSearch)
+        {
+            DatabaseHelper dh = new DatabaseHelper();
+            return dh.getRecordsForCompany(nameOfStockToSearch);
+        }
     }
 }
