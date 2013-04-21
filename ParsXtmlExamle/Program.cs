@@ -47,7 +47,7 @@ namespace ParsXtmlExamle
 
 
 
-          */  
+          
           Parallel.ForEach(alphabetT, s =>
              {
                     DatabaseHelper dh = new DatabaseHelper(stocks[0], s);
@@ -65,7 +65,7 @@ namespace ParsXtmlExamle
 
             });
 
-
+            */
             Parallel.ForEach(alphabetT, s =>
             {
                 DatabaseHelper test = new DatabaseHelper(stocks[0], s);
@@ -73,8 +73,11 @@ namespace ParsXtmlExamle
                 test.testAddedRecord();
 
             });
+            
 
-          
+           // ProgramFacade pf = new ProgramFacade();
+           // pf.loadAllCompaniesToDb("NYSE");
+           // pf.loadAllDataToDb("NYSE");
 
         }
     }

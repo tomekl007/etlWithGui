@@ -9,20 +9,37 @@ namespace ParsXtmlExamle
 {
     class DatabaseHelper
     {
-        private String stockName;
-        private String letter;
-        private String separator = "-";
-        private static readonly string connectionString =
-            ConfigurationManager.ConnectionStrings["StocExchangeEntities2"].ConnectionString;
-        private String filePath;
+        String stockName;
+        String letter;
+        String separator = "-";
+        string connectionString// =@"metadata=res://*/Model1.csdl|res://*/Model1.ssdl|res://*/Model1.msl;provider=System.Data.SqlServerCe.3.5;provider connection string=&quot;Data Source=|DataDirectory|\StocExchange.sdf&quot;";
+            //= ConfigurationManager.ConnectionStrings["StocExchangeEntities2"].ConnectionString;
+          ;
+        String filePath;
        
 
         public DatabaseHelper(String stockName, String letter)
         {
+            Console.WriteLine("DatabaseHelper constructor with : " + stockName + " " + letter);
             this.stockName = stockName;
             this.letter = letter;
             filePath = getFileName();
+           // Console.WriteLine("conf menager : ");
+           // Console.WriteLine( ConfigurationManager.AppSettings);
+            connectionString = ConfigurationManager.ConnectionStrings["StocExchangeEntities2"].ConnectionString;
            
+        }
+
+
+        public DatabaseHelper(String stockName, String letter, String conString)
+        {
+            Console.WriteLine("DatabaseHelper constructor with : " + stockName + " " + letter);
+            this.stockName = stockName;
+            this.letter = letter;
+            filePath = getFileName();
+            // Console.WriteLine("conf menager : ");
+            // Console.WriteLine( ConfigurationManager.AppSettings);
+            connectionString = conString;
         }
 
         private string getFileName()
@@ -116,7 +133,7 @@ namespace ParsXtmlExamle
       
 
 
-        internal void LoadRecordsToDatabase()
+        public void LoadRecordsToDatabase()
         {
             List<String> recordsToAdd = readAllRecordsAndSymbol();
             ObjectContext context = new ObjectContext(connectionString);

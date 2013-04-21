@@ -14,8 +14,9 @@ namespace ParsXtmlExamle
             = "http://www.findata.co.nz/markets/*/symbols/^";
 
         List<string> alphabetT;
+        private String connectionString;
 
-        public ProgramFacade()
+        public ProgramFacade(String conString)
         {
             //initialization 
             for (char ch = 'A'; ch <= 'Z'; ch++){
@@ -28,6 +29,7 @@ namespace ParsXtmlExamle
             stocks.Add("NYSE");
             stocks.Add("NASDAQ");
             stocks.Add("AMEX");
+            connectionString = conString;
         }
 
         public List<String> getAvalibleStocks()
@@ -46,13 +48,27 @@ namespace ParsXtmlExamle
             });
         }
 
+        public void loadAllDataToDb(String stock)
+        {
+            Console.WriteLine("load all Data to Db");
+            loadAllCompaniesToDb(stock);
+            loadAllRecordsToDb(stock);
+        }
+
         public void loadAllCompaniesToDb(String stock)
         {
             Parallel.ForEach(alphabetT, s =>
             {
-                DatabaseHelper dh = new DatabaseHelper(stock, s);
-
-                dh.LoadCompaniesToDatabase();
+                try
+                {
+                    DatabaseHelper dh = new DatabaseHelper(stock, s);
+                    dh.LoadCompaniesToDatabase();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message + ex.StackTrace + ex.Data);
+                }
+                
 
             });
         
@@ -80,6 +96,23 @@ namespace ParsXtmlExamle
             });
         }
 
+        public void extractAndPutToDbAllData()
+        {
+            foreach (String stock in stocks)
+            {
+                extractDataFromUrl(stock);
+            }
+
+            foreach (String stock in stocks)
+            {
+                loadAllCompaniesToDb(stock);
+            }
+
+            foreach (String stock in stocks)
+            {
+                loadAllRecordsToDb(stock);
+            }
+        }
 
     }
 }

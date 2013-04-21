@@ -17,3 +17,4 @@ C:\Users\Tomek\Documents\Visual Studio 2010\Projects\PRACOWNIA PROGRAMOWNIE 2\Pa
 C:\Users\Tomek\Documents\Visual Studio 2010\Projects\PRACOWNIA PROGRAMOWNIE 2\ParsXtmlExamle\guiAplication\obj\x86\Debug\GenerateResource.write.1.tlog
 C:\Users\Tomek\Documents\Visual Studio 2010\Projects\PRACOWNIA PROGRAMOWNIE 2\ParsXtmlExamle\guiAplication\obj\x86\Debug\guiAplication.exe
 C:\Users\Tomek\Documents\Visual Studio 2010\Projects\PRACOWNIA PROGRAMOWNIE 2\ParsXtmlExamle\guiAplication\obj\x86\Debug\guiAplication.pdb
+C:\Users\Tomek\Documents\Visual Studio 2010\Projects\PRACOWNIA PROGRAMOWNIE 2\ParsXtmlExamle\guiAplication\bin\Debug\guiAplication.exe.config

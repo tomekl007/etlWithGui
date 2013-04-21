@@ -7,5 +7,9 @@
         <Label Content="Wpisz nazwe gieldy" Height="28" HorizontalAlignment="Left" Margin="12,39,0,0" Name="label1" VerticalAlignment="Top" Width="126" />
         <Button Content="Sciagnij dane" Height="23" HorizontalAlignment="Left" Margin="76,112,0,0" Name="downloadDataFromWeb" VerticalAlignment="Top" Width="75" Click="downloadDataFromWeb_Click" />
         <Button Content="zapisz dane do db" Height="23" HorizontalAlignment="Left" Margin="193,112,0,0" Name="saveDataToDb" VerticalAlignment="Top" Width="124" Click="saveDataToDb_Click" />
+        <Button Content="sciag i zapisz dane dla wszystkich moliwych spolek" Height="23" HorizontalAlignment="Left" Margin="76,155,0,0" Name="downloadAndSaveAll" VerticalAlignment="Top" Width="291" Click="downloadAndSaveAll_Click" />
+        <TextBox Height="23" HorizontalAlignment="Right" Margin="0,226,73,0" Name="searchRecordsForStock"  VerticalAlignment="Top" Width="147" />
+        <Label Content="wpisz symbol spolki aby wyswietlic notowanie" Height="28" HorizontalAlignment="Left" Margin="24,221,0,0" Name="label2" VerticalAlignment="Top" Width="253" />
+        <Button Content="wyswietl" Height="23" HorizontalAlignment="Left" Margin="76,255,0,0" Name="getRecordsForStock" VerticalAlignment="Top" Width="75" Click="getRecordsForStock_Click" />
     </Grid>
 </Window>

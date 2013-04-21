@@ -12,6 +12,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using ParsXtmlExamle;
+using System.Configuration;
 
 namespace guiAplication
 {
@@ -23,17 +24,19 @@ namespace guiAplication
         //Button _button = new Button { Content = "Go" };
       //  TextBlock _results = new TextBlock();
         ProgramFacade programFacade;
+        String currentStock;
+        readonly String connectionString;
 
         public MainWindow()
         {
             InitializeComponent();
-            programFacade = new ProgramFacade();
+            
           //  var panel = new StackPanel();
            // panel.Children.Add(_button);
            // panel.Children.Add(_results);
            // Content = panel;
-            
-          
+            connectionString = ConfigurationManager.ConnectionStrings["StocExchangeEntities2"].ConnectionString;
+            programFacade = new ProgramFacade(connectionString);
         }
 
         
@@ -44,20 +47,55 @@ namespace guiAplication
 
         private void downloadDataFromWeb_Click(object sender, RoutedEventArgs e)
         {
-            String stock = nameOfStockToSearch.Text;
+            currentStock = nameOfStockToSearch.Text;
            // MessageBoxResult result =
-            if (!programFacade.getAvalibleStocks().Contains(stock))
+            if (!programFacade.getAvalibleStocks().Contains(currentStock))
             {   
                 MessageBox.Show("wpisales nazwe gieldy, która nie istnieje!");
                 return;
             }
 
-            programFacade.extractDataFromUrl(stock);
+            programFacade.extractDataFromUrl(currentStock);
+            MessageBox.Show("pobieranie zakonczone");
 
         }
 
         private void saveDataToDb_Click(object sender, RoutedEventArgs e)
         {
+
+            currentStock = nameOfStockToSearch.Text;
+            // MessageBoxResult result =
+            if (!programFacade.getAvalibleStocks().Contains(currentStock))
+            {
+                MessageBox.Show("wpisales nazwe gieldy, która nie istnieje!");
+                return;
+            }
+
+            programFacade.loadAllDataToDb(currentStock);
+            MessageBox.Show("zapisywanie do bazy danych zakonczone");
+
+        }
+
+        private void downloadAndSaveAll_Click(object sender, RoutedEventArgs e)
+        {
+            if (MessageBox.Show("Ta operacja moze trwac bardzo dlugo! Kontynuowac ? ",
+            "Confirmation", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+            {
+                programFacade.extractAndPutToDbAllData();
+            }
+            else
+            {
+                return;
+            } 
+            
+
+        }
+
+        private void getRecordsForStock_Click(object sender, RoutedEventArgs e)
+        {
+            String nameOfStockToSearch = searchRecordsForStock.Text;
+            Console.WriteLine(nameOfStockToSearch);
+            //TO DO : get data from db and bind to grid view
 
         }
     }
