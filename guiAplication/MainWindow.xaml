@@ -5,12 +5,12 @@
     <Grid>
         <TextBox Height="23" HorizontalAlignment="Left" Margin="136,39,0,0" Name="nameOfStockToSearch" VerticalAlignment="Top" Width="120" TextChanged="nameOfStockToSearch_TextChanged" />
         <Label Content="Wpisz nazwe gieldy" Height="28" HorizontalAlignment="Left" Margin="12,39,0,0" Name="label1" VerticalAlignment="Top" Width="126" />
-        <Button Content="Sciagnij dane" Height="23" HorizontalAlignment="Left" Margin="76,112,0,0" Name="downloadDataFromWeb" VerticalAlignment="Top" Width="75" Click="downloadDataFromWeb_Click" />
-        <Button Content="zapisz dane do db" Height="23" HorizontalAlignment="Left" Margin="193,112,0,0" Name="saveDataToDb" VerticalAlignment="Top" Width="124" Click="saveDataToDb_Click" />
-        <Button Content="sciag i zapisz dane dla wszystkich moliwych spolek" Height="23" HorizontalAlignment="Left" Margin="76,155,0,0" Name="downloadAndSaveAll" VerticalAlignment="Top" Width="291" Click="downloadAndSaveAll_Click" />
+        <Button Content="Sciagnij dane" ToolTip="sciagne dane ze strony http://www.findata.co.nz/markets/ dla podanej gieldy " Height="23" HorizontalAlignment="Left" Margin="76,112,0,0" Name="downloadDataFromWeb" VerticalAlignment="Top" Width="75" Click="downloadDataFromWeb_Click" />
+        <Button Content="zapisz dane do db" ToolTip="zapisze uprzednio sciagniete dane do bazy danych" Height="23" HorizontalAlignment="Left" Margin="193,112,0,0" Name="saveDataToDb" VerticalAlignment="Top" Width="124" Click="saveDataToDb_Click" />
+        <Button Content="sciag i zapisz dane dla wszystkich moliwych spolek" ToolTip="wykonam operacje sciagniecia danych i zapisu dla notowan: NYSE, NASDAQ i AMEX " Height="23" HorizontalAlignment="Left" Margin="76,155,0,0" Name="downloadAndSaveAll" VerticalAlignment="Top" Width="291" Click="downloadAndSaveAll_Click" />
         <TextBox Height="23" HorizontalAlignment="Left" Margin="301,223,0,0" Name="searchRecordsForStock"  VerticalAlignment="Top" Width="147" />
         <Label Content="wpisz symbol spolki aby wyswietlic notowanie" Height="28" HorizontalAlignment="Left" Margin="24,221,0,0" Name="label2" VerticalAlignment="Top" Width="253" />
-        <Button Content="wyswietl" Height="23" HorizontalAlignment="Left" Margin="76,255,0,0" Name="getRecordsForStock" VerticalAlignment="Top" Width="75" Click="getRecordsForStock_Click" />
+        <Button Content="wyswietl" ToolTip="wyszukam w bazie danych, czy notowanie dla danej spolki zostalo wczesniej sciagniete" Height="23" HorizontalAlignment="Left" Margin="76,255,0,0" Name="getRecordsForStock" VerticalAlignment="Top" Width="75" Click="getRecordsForStock_Click" />
         <Label Content="Symbol" Height="28" HorizontalAlignment="Left" Margin="76,366,0,0" Name="label3" VerticalAlignment="Top" />
         <Label Content="High" Height="28" HorizontalAlignment="Left" Margin="136,366,0,0" Name="label4" VerticalAlignment="Top" />
         <Label Content="Low" Height="28" HorizontalAlignment="Left" Margin="185,366,0,0" Name="label5" VerticalAlignment="Top" />
