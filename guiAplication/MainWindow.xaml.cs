@@ -89,24 +89,38 @@ namespace guiAplication
             else
             {
                 return;
-            } 
-            
+            }
+            MessageBox.Show("pobieranie i zapisywanie do bazy zakonczone");
 
         }
+
+        
 
         private void getRecordsForStock_Click(object sender, RoutedEventArgs e)
         {
             String nameOfStockToSearch = searchRecordsForStock.Text;
-            Console.WriteLine(nameOfStockToSearch);
-            //TO DO : get data from db and bind to grid view
-            List<Record> results = programFacade.getRecordsForSpecyficCompany(nameOfStockToSearch);
+            char[] delimeter = {','};
+            List<String> namesOfStocksToSearch = new List<string>();
+
+            foreach (String s in nameOfStockToSearch.Split(delimeter))
+                namesOfStocksToSearch.Add(s);
+
+
+            //Console.WriteLine(nameOfStockToSearch);
+           List<List<Record>> results=new List<List<Record>>();
+
+            foreach(String st in namesOfStocksToSearch)
+             results.Add( programFacade.getRecordsForSpecyficCompany(st) );
            // dataGrid1.ItemsSource = results;
             //dataGrid1.DataContext = results;
            
             List<String>symbols = new List<string>();
-            foreach (Record r in results){
+            foreach (List<Record> re in results){
+                foreach(Record r in re)
+                {
                 Console.WriteLine(r.CompanySymbol + " " + r.Low);
                 symbols.Add(r.CompanySymbol);
+                }
             }
 
            /* DataGridTextColumn symbolRow = new DataGridTextColumn();
@@ -129,14 +143,17 @@ namespace guiAplication
             String newLineSeparator = " \n";
             String constructed = "";
             //String.Format("{0:0.##}", );      // "123.46"
-            foreach(Record r in results)
+            foreach (List<Record> re in results)
             {
-                constructed += r.CompanySymbol + separator + String.Format("{0:0.##}",r.High) + separator
-                            + String.Format("{0:0.##}",r.Low) + separator + String.Format("{0:0.##}",r.Close) 
-                            + separator + r.Volume + separator
-                            + String.Format("{0:0.##}", r.ChangeOne) + separator
-                            + r.DateOfRecord.ToShortDateString() + newLineSeparator;
+                foreach (Record r in re)
+                {
+                    constructed += r.CompanySymbol + separator + String.Format("{0:0.##}", r.High) + separator
+                                + String.Format("{0:0.##}", r.Low) + separator + String.Format("{0:0.##}", r.Close)
+                                + separator + r.Volume + separator
+                                + String.Format("{0:0.##}", r.ChangeOne) + separator
+                                + r.DateOfRecord.ToShortDateString() + newLineSeparator;
 
+                }
             }
 
             dataResult.Text = constructed;
