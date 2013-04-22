@@ -15,6 +15,9 @@ using ParsXtmlExamle;
 using System.Configuration;
 
 using System.Data.Objects;
+using System.Threading.Tasks;
+using System.ComponentModel;
+using System.Threading;
 
 
 namespace guiAplication
@@ -58,10 +61,35 @@ namespace guiAplication
                 return;
             }
 
-            programFacade.extractDataFromUrl(currentStock);
-            MessageBox.Show("pobieranie zakonczone");
+
+            BackgroundWorker worker = new BackgroundWorker();
+            worker.WorkerSupportsCancellation = false;
+            worker.DoWork += new DoWorkEventHandler(bw_DoWorkDownloadData);
+            //worker.RunWorkerCompleted += WorkerEnded;
+            worker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(bw_RunWorkerDownloadDataCompleted);
+            worker.RunWorkerAsync();
+         
+           
+           
+           
 
         }
+
+        private void bw_DoWorkDownloadData(object sender, DoWorkEventArgs e)
+        {
+            programFacade.extractDataFromUrl(currentStock);
+        }
+
+        private void bw_RunWorkerDownloadDataCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            MessageBox.Show("pobieranie zakonczone");
+        }
+
+
+       // private Task<int> extractAsynch()
+       // {
+       //     return 0;
+        //}
 
         private void saveDataToDb_Click(object sender, RoutedEventArgs e)
         {
@@ -74,24 +102,63 @@ namespace guiAplication
                 return;
             }
 
-            programFacade.loadAllDataToDb(currentStock);
-            MessageBox.Show("zapisywanie do bazy danych zakonczone");
+
+
+            BackgroundWorker worker = new BackgroundWorker();
+            worker.WorkerSupportsCancellation = false;
+            worker.DoWork += new DoWorkEventHandler(bw_DoWorkSaveToDb);
+            //worker.RunWorkerCompleted += WorkerEnded;
+            worker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(bw_RunWorkerSaveToDbCompleted);
+            worker.RunWorkerAsync();
+         
+
+           
+          
 
         }
+
+
+        private void bw_DoWorkSaveToDb(object sender, DoWorkEventArgs e)
+        {
+            programFacade.loadAllDataToDb(currentStock);
+        }
+
+        private void bw_RunWorkerSaveToDbCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            MessageBox.Show("zapisywanie do bazy danych zakonczone");
+        }
+
 
         private void downloadAndSaveAll_Click(object sender, RoutedEventArgs e)
         {
             if (MessageBox.Show("Ta operacja moze trwac bardzo dlugo! Kontynuowac ? ",
             "Confirmation", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
             {
-                programFacade.extractAndPutToDbAllData();
+
+                    BackgroundWorker worker = new BackgroundWorker();
+                    worker.WorkerSupportsCancellation = false;
+                    worker.DoWork += new DoWorkEventHandler(bw_DoWorkDownloadAndSaveAll);
+                     //worker.RunWorkerCompleted += WorkerEnded;
+                    worker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(bw_RunWorkerDownloadAndSaveAllCompleted);
+                    worker.RunWorkerAsync();
+
+
             }
             else
             {
                 return;
             }
-            MessageBox.Show("pobieranie i zapisywanie do bazy zakonczone");
+            
 
+        }
+        private void bw_DoWorkDownloadAndSaveAll(object sender, DoWorkEventArgs e)
+        {
+            programFacade.extractAndPutToDbAllData();
+        }
+
+        private void bw_RunWorkerDownloadAndSaveAllCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            MessageBox.Show("pobieranie i zapisywanie do bazy zakonczone");
         }
 
         
