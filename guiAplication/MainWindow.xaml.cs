@@ -19,6 +19,10 @@ using System.Threading.Tasks;
 using System.ComponentModel;
 using System.Threading;
 
+using Microsoft.Research.DynamicDataDisplay;
+using Microsoft.Research.DynamicDataDisplay.DataSources;
+using Microsoft.Research.DynamicDataDisplay.PointMarkers;
+
 
 namespace guiAplication
 {
@@ -210,8 +214,10 @@ namespace guiAplication
             String newLineSeparator = " \n";
             String constructed = "";
             //String.Format("{0:0.##}", );      // "123.46"
+            int howManyResults = 0;
             foreach (List<Record> re in results)
             {
+                
                 foreach (Record r in re)
                 {
                     constructed += r.CompanySymbol + separator + String.Format("{0:0.##}", r.High) + separator
@@ -219,13 +225,140 @@ namespace guiAplication
                                 + separator + r.Volume + separator
                                 + String.Format("{0:0.##}", r.ChangeOne) + separator
                                 + r.DateOfRecord.ToShortDateString() + newLineSeparator;
+                    howManyResults++;
 
                 }
             }
 
+            Console.WriteLine("res count : " + results.Count() + " " + howManyResults);
+
             dataResult.Text = constructed;
 
+
+            if(howManyResults>1)
+                drawChart2(results);
+            if(howManyResults==0)
+                MessageBox.Show("NIe znaleziono danych dla podanej spolki");
             
+
+        }
+
+        private void drawChart()
+        {
+           
+            // Prepare data in arrays
+			const int N = 1000;
+			double[] x = new double[N];
+			double[] y = new double[N];
+           
+
+
+			for (int i = 0; i < N; i++)
+
+			{
+				x[i] = i * 0.1;
+				y[i] = Math.Sin(x[i]);
+			}
+
+			// Create data sources:
+			var xDataSource = x.AsXDataSource();
+            //var xDataSource = dt.AsDataSource() ;
+			var yDataSource = y.AsYDataSource();
+
+			CompositeDataSource compositeDataSource = xDataSource.Join(yDataSource);
+			// adding graph to plotter
+			plotter.AddLineGraph(compositeDataSource,
+				Colors.Goldenrod,
+				3,
+				"Sine");
+
+			// Force evertyhing plotted to be visible
+			plotter.FitToView();
+        }
+
+        public void drawChart2(List<List<Record>> results)
+        {
+            
+            
+            List<DateTime> dates = new List<DateTime>();
+            // DateTime[] dates = new DateTime[2];
+            // dates[0] = DateTime.Today;
+            
+           // DateTime date = DateTime.Now;
+           // TimeSpan time = new TimeSpan(36, 0, 0, 0);
+           // DateTime combined = date.Add(time);
+           // dates[1] = date;
+
+            
+
+            List<Double> nr = new List<Double>();
+           // nr.Add(2);
+           // nr.Add(4);
+            //int[] nr = new int[2];
+            //nr[0] = 2;
+            //nr[1] = 4;
+
+           // nr.Add(1);
+            //nr.Add(2);
+            String nameOfStock="";
+           // int i = 0;
+            foreach (List<Record> re in results)
+            {
+                foreach (Record r in re)
+                {
+                    dates.Add(r.DateOfRecord);
+                    Double close = (Double)r.Close;
+                    nr.Add(close);
+                    nameOfStock = r.CompanySymbol;
+
+                }
+            }
+
+            var datesDataSource = new EnumerableDataSource<DateTime>(dates);
+            datesDataSource.SetXMapping(x => dateAxis.ConvertToDouble(x));
+
+            var numberOpenDataSource = new EnumerableDataSource<Double>(nr);
+            numberOpenDataSource.SetYMapping(y => y);
+
+            CompositeDataSource compositeDataSource = new
+        CompositeDataSource(datesDataSource, numberOpenDataSource);
+
+            Console.WriteLine("nOfS : " + nameOfStock);
+            
+            if (!string.IsNullOrEmpty(nameOfStock))
+            {
+
+                plotter.AddLineGraph(compositeDataSource,
+                    getRandomColor(),
+                    3,
+                    nameOfStock);
+           
+
+            // Force evertyhing plotted to be visible
+            plotter.FitToView();
+            }
+            plotter.Children.RemoveAll();
+        }
+
+        private int counter = 0;
+        private Color getRandomColor()
+        {
+           
+            Color[] colors = new Color[5];
+            colors[0]=Colors.Brown;
+            colors[1] = Colors.Blue ;
+            colors[2]=Colors.DarkRed;
+            colors[3]=Colors.Yellow;
+            colors[4]=Colors.Green;
+            counter++;
+            if (counter >= 5)
+            {
+                counter = 0;
+            }
+            
+            return colors[counter];
+            
+
 
         }
     }
