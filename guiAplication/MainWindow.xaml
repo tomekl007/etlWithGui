@@ -26,7 +26,7 @@
                 <d3:HorizontalDateTimeAxis Name="dateAxis" Height="50" Width="403" />
             </d3:ChartPlotter.HorizontalAxis>
             <d3:ChartPlotter.VerticalAxis>
-                <d3:VerticalIntegerAxis Name="countAxis" />
+                <d3:VerticalAxis Name="countAxis"  />
             </d3:ChartPlotter.VerticalAxis>
 
             <d3:Header FontFamily="Arial" Content="Stock Information"/>
@@ -34,5 +34,6 @@
             <d3:HorizontalAxisTitle FontFamily="Arial" Content="Date"/>
 
         </d3:ChartPlotter>
+        <Button Content="wyczysc wykres" Height="23" HorizontalAlignment="Left" Margin="388,777,0,0" Name="button1" VerticalAlignment="Top" Width="117" Click="clearChart_Click" />
     </Grid>
 </Window>

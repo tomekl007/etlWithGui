@@ -281,25 +281,11 @@ namespace guiAplication
             
             
             List<DateTime> dates = new List<DateTime>();
-            // DateTime[] dates = new DateTime[2];
-            // dates[0] = DateTime.Today;
-            
-           // DateTime date = DateTime.Now;
-           // TimeSpan time = new TimeSpan(36, 0, 0, 0);
-           // DateTime combined = date.Add(time);
-           // dates[1] = date;
-
+           
             
 
             List<Double> nr = new List<Double>();
-           // nr.Add(2);
-           // nr.Add(4);
-            //int[] nr = new int[2];
-            //nr[0] = 2;
-            //nr[1] = 4;
-
-           // nr.Add(1);
-            //nr.Add(2);
+          
             String nameOfStock="";
            // int i = 0;
             foreach (List<Record> re in results)
@@ -319,6 +305,7 @@ namespace guiAplication
 
             var numberOpenDataSource = new EnumerableDataSource<Double>(nr);
             numberOpenDataSource.SetYMapping(y => y);
+            
 
             CompositeDataSource compositeDataSource = new
         CompositeDataSource(datesDataSource, numberOpenDataSource);
@@ -337,7 +324,10 @@ namespace guiAplication
             // Force evertyhing plotted to be visible
             plotter.FitToView();
             }
-            plotter.Children.RemoveAll();
+
+            Console.WriteLine("plotterChild count : " + plotter.Children.Count());
+            
+            
         }
 
         private int counter = 0;
@@ -347,7 +337,7 @@ namespace guiAplication
             Color[] colors = new Color[5];
             colors[0]=Colors.Brown;
             colors[1] = Colors.Blue ;
-            colors[2]=Colors.DarkRed;
+            colors[2]=Colors.Black;
             colors[3]=Colors.Yellow;
             colors[4]=Colors.Green;
             counter++;
@@ -360,6 +350,12 @@ namespace guiAplication
             
 
 
+        }
+
+        private void clearChart_Click(object sender, RoutedEventArgs e)
+        {
+
+            plotter.Children.RemoveAll(typeof(LineGraph)); 
         }
     }
 }
