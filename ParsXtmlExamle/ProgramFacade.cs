@@ -6,16 +6,39 @@ using System.Threading.Tasks;
 
 namespace ParsXtmlExamle
 {
+    /// <summary>
+    /// this class serve as external interface for GUI
+    /// </summary>
     public class ProgramFacade
     {
+        /// <summary>
+        /// list of all letters in alphabet
+        /// </summary>
         private static List<string> alphabet = new List<string>();
+        /// <summary>
+        /// list of all avalible stocks
+        /// </summary>
         private static List<string> stocks = new List<string>();
+        /// <summary>
+        /// baseUrl for data to download
+        /// </summary>
         private static readonly String baseUrl  // * is placeholder to replace by stock and ^ for letter
             = "http://www.findata.co.nz/markets/*/symbols/^";
 
+        /// <summary>
+        /// sublist of alphabet (A,B,C)
+        /// </summary>
         List<string> alphabetT;
+        /// <summary>
+        /// connection String to database
+        /// </summary>
         private String connectionString;
 
+        /// <summary>
+        /// constructor which fills alphabet, alphabeT - is alphabet from A to Z
+        /// and stocks 
+        /// </summary>
+        /// <param name="conString">connectionString to dataBase</param>
         public ProgramFacade(String conString)
         {
             //initialization 
@@ -23,7 +46,7 @@ namespace ParsXtmlExamle
                 alphabet.Add(ch.ToString());
             }
 
-            alphabetT = alphabet.GetRange(3, 4);
+            alphabetT = alphabet.GetRange(0, 3);
 
 
             stocks.Add("NYSE");
@@ -31,12 +54,20 @@ namespace ParsXtmlExamle
             stocks.Add("AMEX");
             connectionString = conString;
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns>List of all avalible Stocks to search </returns>
         public List<String> getAvalibleStocks()
         {
             return stocks;
         }
 
+        /// <summary>
+        /// create instance of Extractor for each letter in 
+        /// alphabet list and extract data in parallel
+        /// </summary>
+        /// <param name="stock">stocks for which download and extract data</param>
         public void extractDataFromUrl(String stock)
         {
             Parallel.ForEach(alphabetT, s =>
@@ -48,6 +79,11 @@ namespace ParsXtmlExamle
             });
         }
 
+        /// <summary>
+        /// invoke loadAllCompaniesToDb, next invoke loadAllRecordsToDb
+        /// 
+        /// </summary>
+        /// <param name="stock">stocks for which load data to database</param>
         public void loadAllDataToDb(String stock)
         {
             Console.WriteLine("load all Data to Db");
@@ -55,6 +91,10 @@ namespace ParsXtmlExamle
             loadAllRecordsToDb(stock);
         }
 
+        /// <summary>
+        /// load all copamies from earlier extracted data to database
+        /// </summary>
+        /// <param name="stock">stocks for which load data to database<</param>
         public void loadAllCompaniesToDb(String stock)
         {
             Parallel.ForEach(alphabetT, s =>
@@ -74,6 +114,11 @@ namespace ParsXtmlExamle
         
         }
 
+        /// <summary>
+        /// load all records for copamies
+        /// from earlier extracted data to database
+        /// </summary>
+        /// <param name="stock">stocks for which load data to database</param>
         public void loadAllRecordsToDb(String stock)
         {
             Parallel.ForEach(alphabetT, s =>
@@ -85,16 +130,12 @@ namespace ParsXtmlExamle
             });
         }
 
-        public void testDb(String stock)
-        {
-            Parallel.ForEach(alphabetT, s =>
-            {
-                DatabaseHelper test = new DatabaseHelper(stock, s);
 
-                test.testAddedRecord();
-
-            });
-        }
+        
+       /// <summary>
+       /// extract and load data to database for all avalible stocks :
+       /// NYSE, NASDAQ, AMEX
+       /// </summary>
 
         public void extractAndPutToDbAllData()
         {

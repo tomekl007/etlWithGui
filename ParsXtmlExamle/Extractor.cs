@@ -9,6 +9,9 @@ using System.Threading;
 
 namespace ParsXtmlExamle
 {
+    /// <summary>
+    /// download and extract data. Class is thread safe
+    /// </summary>
     class Extractor
     {
         String baseUrl;
@@ -18,6 +21,13 @@ namespace ParsXtmlExamle
         String suffix;
         //static readonly int timeout = 150000;//ms
 
+        /// <summary>
+        /// only one constuctor
+        /// </summary>
+        /// <param name="baseUrl">baseUrl with strucutre as follows : www/*/sth/^</param>
+        /// <param name="stock">name of stock</param>
+        /// <param name="letter">first letter of companies</param>
+        /// <param name="suffix">suffix will be used in constructing url</param>
         public Extractor(String baseUrl, String stock, String letter, String suffix )
         {
             this.baseUrl = baseUrl;
@@ -26,6 +36,9 @@ namespace ParsXtmlExamle
             this.suffix = suffix;
         }
 
+        /// <summary>
+        /// extracting and transforming data for earlier constructed url
+        /// </summary>
         public void Extract()
         {
 
@@ -96,17 +109,28 @@ namespace ParsXtmlExamle
 
         }
 
+        /// <summary>
+        /// deleting temporary file which was constructed when downloading data 
+        /// </summary>
         private void deleteTempFile()
         {
             String path = constructTempFilePath();
             File.Delete(path);
         }
 
+        /// <summary>
+        /// constructing temporary file path
+        /// </summary>
+        /// <returns>temporary file path witch structure as follows : XXXX-X_temp</returns>
         private string constructTempFilePath()
         {
             return stock + separator + letter + separator + "temp";
         }
 
+        /// <summary>
+        /// constructing url from which data will be downloaded and extraced
+        /// </summary>
+        /// <returns>url consturcted from arguments given in constructor</returns>
         private string constructUrl()
         {
             String baseOne= baseUrl.Replace("*", stock);

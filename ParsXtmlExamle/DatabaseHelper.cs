@@ -7,16 +7,41 @@ using System.Configuration;
 
 namespace ParsXtmlExamle
 {
+    /// <summary>
+    /// class responsible for communication with database, 
+    ///and loading data to database. All local variables 
+    ///are confined to object instance, and objects are immutable,
+    ///therefore are thread safe
+    /// </summary>
     class DatabaseHelper
     {
+        /// <summary>
+        /// stock for which data will be load
+        /// </summary>
         String stockName;
+        /// <summary>
+        /// letter for which data will be loaded
+        /// </summary>
         String letter;
+        /// <summary>
+        /// separator need for reconstructing url to 
+        /// earlier downloaded stock data
+        /// </summary>
         String separator = "-";
+        /// <summary>
+        /// connection String to database
+        /// </summary>
         string connectionString// =@"metadata=res://*/Model1.csdl|res://*/Model1.ssdl|res://*/Model1.msl;provider=System.Data.SqlServerCe.3.5;provider connection string=&quot;Data Source=|DataDirectory|\StocExchange.sdf&quot;";
             //= ConfigurationManager.ConnectionStrings["StocExchangeEntities2"].ConnectionString;
           ;
+        /// <summary>
+        /// constructed file path to specyfic file
+        /// </summary>
         String filePath;
 
+        /// <summary>
+        /// default constructor
+        /// </summary>
         public DatabaseHelper()
         {
             
@@ -28,7 +53,11 @@ namespace ParsXtmlExamle
 
         }
        
-
+        /// <summary>
+        /// two parametrs constructor 
+        /// </summary>
+        /// <param name="stockName">name of stock for which data will be loaded to db</param>
+        /// <param name="letter">letter of companies for which data will be loaded to db</param>
         public DatabaseHelper(String stockName, String letter)
         {
             Console.WriteLine("DatabaseHelper constructor with : " + stockName + " " + letter);
@@ -42,6 +71,12 @@ namespace ParsXtmlExamle
         }
 
 
+        /// <summary>
+        /// three parametrs constructor
+        /// </summary>
+        /// <param name="stockName">name of stock for which data will be loaded to db</param>
+        /// <param name="letter">letter of companies for which data will be loaded to db</param>
+        /// <param name="conString">connection string to db</param>
         public DatabaseHelper(String stockName, String letter, String conString)
         {
             Console.WriteLine("DatabaseHelper constructor with : " + stockName + " " + letter);
@@ -53,11 +88,22 @@ namespace ParsXtmlExamle
             connectionString = conString;
         }
 
+        /// <summary>
+        /// constructing file name for earlier downloaded and extracted data
+        /// </summary>
+        /// <returns>file name with structure as follows :
+        ///             XXXX-Y
+        ///             X-name of stock
+        ///             Y-first letter of companies symbol</returns>
         private string getFileName()
         {
             return stockName + separator + letter;
         }
 
+
+        /// <summary>
+        /// loading all companies to db
+        /// </summary>
         public void LoadCompaniesToDatabase(){
 
 
@@ -100,7 +146,11 @@ namespace ParsXtmlExamle
             
         }
 
-        //return all symbols and names for all companies
+        
+        /// <summary>
+        /// read all symbols and names for all companies from specyfic file
+        /// </summary>
+        /// <returns>List of all symbols and names</returns>
         private List<String> readAllSymbolsAndNames()
         {
             List<String> symbolsAndNames = new List<String>();
@@ -143,7 +193,9 @@ namespace ParsXtmlExamle
         }
       
 
-
+        /// <summary>
+        /// loads all records to db
+        /// </summary>
         public void LoadRecordsToDatabase()
         {
             List<String> recordsToAdd = readAllRecordsAndSymbol();
@@ -214,6 +266,10 @@ namespace ParsXtmlExamle
 
         }
 
+        /// <summary>
+        /// read all records and symbol from earlier downloaded and extracted data
+        /// </summary>
+        /// <returns>list of all records and symbol</returns>
         private List<string> readAllRecordsAndSymbol()
         {
             List<String> symbolAndRecordsData = new List<String>();
@@ -255,6 +311,10 @@ namespace ParsXtmlExamle
             return symbolAndRecordsData;
         }
 
+
+        /// <summary>
+        /// test for adding record
+        /// </summary>
         internal void testAddedRecord()
         {
             
@@ -300,6 +360,11 @@ namespace ParsXtmlExamle
 
         }
 
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="companySymbol">symbol of company for which all records will be returned</param>
+        /// <returns>list of records for specyfic comapny</returns>
         public List<Record> getRecordsForCompany(String companySymbol)
         {
             Console.WriteLine("searching for records for companySymbol : " + companySymbol);

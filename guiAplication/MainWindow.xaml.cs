@@ -27,16 +27,28 @@ using Microsoft.Research.DynamicDataDisplay.PointMarkers;
 namespace guiAplication
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for MainWindow.xaml ( GUI )
     /// </summary>
     public partial class MainWindow : Window
     {
         //Button _button = new Button { Content = "Go" };
       //  TextBlock _results = new TextBlock();
+       /// <summary>
+       /// interface used to connect with logic project
+       /// </summary>
         ProgramFacade programFacade;
+        /// <summary>
+        /// stock currenly typed by user in GUI
+        /// </summary>
         String currentStock;
+        /// <summary>
+        /// connection string to database
+        /// </summary>
         readonly String connectionString;
 
+        /// <summary>
+        /// default constructor
+        /// </summary>
         public MainWindow()
         {
             InitializeComponent();
@@ -49,12 +61,25 @@ namespace guiAplication
             programFacade = new ProgramFacade(connectionString);
         }
 
-        
+        /// <summary>
+        /// listener for textChange in nameOfStockToSearch textBox
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void nameOfStockToSearch_TextChanged(object sender, TextChangedEventArgs e)
         {
 
         }
 
+
+        /// <summary>
+        /// listener for downloadDataFromWeb button
+        /// when clicked by user, first validate user input in nameOfStockToSearch textBox
+        /// next starting backgroundWorker which will download and extract data from web
+        /// for earlier given stock
+        /// </summary>
+        /// <param name="sender">sender of event</param>
+        /// <param name="e">event object</param>
         private void downloadDataFromWeb_Click(object sender, RoutedEventArgs e)
         {
             currentStock = nameOfStockToSearch.Text;
@@ -78,12 +103,21 @@ namespace guiAplication
            
 
         }
-
+        /// <summary>
+        /// downlaoding data in background thread
+        /// </summary>
+        /// <param name="sender">sender of event</param>
+        /// <param name="e">event object</param>
         private void bw_DoWorkDownloadData(object sender, DoWorkEventArgs e)
         {
             programFacade.extractDataFromUrl(currentStock);
         }
 
+        /// <summary>
+        /// invoking when data will be downloaded from web
+        /// </summary>
+        /// <param name="sender">sender of event</param>
+        /// <param name="e">event object</param>
         private void bw_RunWorkerDownloadDataCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             MessageBox.Show("pobieranie zakonczone");
@@ -95,6 +129,12 @@ namespace guiAplication
        //     return 0;
         //}
 
+        /// <summary>
+        /// listener for saveDataToDb button, when clicked by user
+        /// it save earlier downloaded data to db in background thread
+        /// </summary>
+        /// <param name="sender">sender of event</param>
+        /// <param name="e">event object</param>
         private void saveDataToDb_Click(object sender, RoutedEventArgs e)
         {
 
@@ -121,18 +161,37 @@ namespace guiAplication
 
         }
 
-
+        /// <summary>
+        /// saving data to db in backgroud thread
+        /// </summary>
+        /// <param name="sender">sender of event</param>
+        /// <param name="e">event object</param>
         private void bw_DoWorkSaveToDb(object sender, DoWorkEventArgs e)
         {
             programFacade.loadAllDataToDb(currentStock);
         }
 
+
+
+        /// <summary>
+        /// invoking when data will be saved to db
+        /// </summary>
+        /// <param name="sender">sender of event</param>
+        /// <param name="e">event object</param>
         private void bw_RunWorkerSaveToDbCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             MessageBox.Show("zapisywanie do bazy danych zakonczone");
         }
 
 
+
+        /// <summary>
+        /// listener for downloadAndSaveAll button, when clicked
+        /// perform downloading, extracting, and loading data to db
+        /// for all avalible stocks
+        /// </summary>
+        /// <param name="sender">sender of event</param>
+        /// <param name="e">event object</param>
         private void downloadAndSaveAll_Click(object sender, RoutedEventArgs e)
         {
             if (MessageBox.Show("Ta operacja moze trwac bardzo dlugo! Kontynuowac ? ",
@@ -155,18 +214,37 @@ namespace guiAplication
             
 
         }
+
+        /// <summary>
+        /// downlaoding, extracting, and saving data to db in backgroud thread
+        /// </summary>
+        /// <param name="sender">sender of event</param>
+        /// <param name="e">event object</param>
         private void bw_DoWorkDownloadAndSaveAll(object sender, DoWorkEventArgs e)
         {
             programFacade.extractAndPutToDbAllData();
         }
 
+
+        /// <summary>
+        /// invoking when downlaoding, extracting, and saving data to db will be completed
+        /// </summary>
+        /// <param name="sender">sender of event</param>
+        /// <param name="e">event object</param>
         private void bw_RunWorkerDownloadAndSaveAllCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             MessageBox.Show("pobieranie i zapisywanie do bazy zakonczone");
         }
 
-        
 
+        /// <summary>
+        /// listener for getRecordsForStock
+        /// searching data in database for stock symbol typed by user in 
+        /// searchRecordsForStock textBox. 
+        /// then invoke drawChart
+        /// </summary>
+        /// <param name="sender">sender of event</param>
+        /// <param name="e">event object</param>
         private void getRecordsForStock_Click(object sender, RoutedEventArgs e)
         {
             String nameOfStockToSearch = searchRecordsForStock.Text;
@@ -236,47 +314,19 @@ namespace guiAplication
 
 
             if(howManyResults>1)
-                drawChart2(results);
+                drawChart(results);
             if(howManyResults==0)
                 MessageBox.Show("NIe znaleziono danych dla podanej spolki");
             
 
         }
-
-        private void drawChart()
-        {
-           
-            // Prepare data in arrays
-			const int N = 1000;
-			double[] x = new double[N];
-			double[] y = new double[N];
-           
-
-
-			for (int i = 0; i < N; i++)
-
-			{
-				x[i] = i * 0.1;
-				y[i] = Math.Sin(x[i]);
-			}
-
-			// Create data sources:
-			var xDataSource = x.AsXDataSource();
-            //var xDataSource = dt.AsDataSource() ;
-			var yDataSource = y.AsYDataSource();
-
-			CompositeDataSource compositeDataSource = xDataSource.Join(yDataSource);
-			// adding graph to plotter
-			plotter.AddLineGraph(compositeDataSource,
-				Colors.Goldenrod,
-				3,
-				"Sine");
-
-			// Force evertyhing plotted to be visible
-			plotter.FitToView();
-        }
-
-        public void drawChart2(List<List<Record>> results)
+       
+        
+        /// <summary>
+        /// drawing chart for list of lists of records
+        /// </summary>
+        /// <param name="results">list of list of records</param>
+        public void drawChart(List<List<Record>> results)
         {
             
             
@@ -330,7 +380,15 @@ namespace guiAplication
             
         }
 
+
+        /// <summary>
+        /// counter used in random color generator
+        /// </summary>
         private int counter = 0;
+        /// <summary>
+        /// getting random color used by drawChart
+        /// </summary>
+        /// <returns>random Color</returns>
         private Color getRandomColor()
         {
            
@@ -352,6 +410,12 @@ namespace guiAplication
 
         }
 
+        /// <summary>
+        /// listener for claerChart button
+        ///clear chart for earlier drawn data
+        /// </summary>
+        /// <param name="sender">sender of event</param>
+        /// <param name="e">event object</param>
         private void clearChart_Click(object sender, RoutedEventArgs e)
         {
 

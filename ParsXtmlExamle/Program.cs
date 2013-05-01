@@ -10,6 +10,9 @@ using System.Threading.Tasks;
 
 namespace ParsXtmlExamle
 {
+    /// <summary>
+    /// class for testing purpose in development stage
+    /// </summary>
     class Program
     {
 
